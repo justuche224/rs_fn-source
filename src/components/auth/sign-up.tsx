@@ -1,11 +1,11 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Link, useNavigate } from "@tanstack/react-router"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { useState, useTransition } from "react"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useState, useTransition } from "react";
 import {
   Form,
   FormControl,
@@ -13,19 +13,22 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Loader2, ArrowRight } from "lucide-react"
-import { FormError } from "@/components/ui/form-error"
-import { FormSuccess } from "@/components/ui/form-success"
-import { authClient } from "@/lib/auth-client"
-import axios from "axios"
+} from "@/components/ui/form";
+import { Loader2, ArrowRight } from "lucide-react";
+import { FormError } from "@/components/ui/form-error";
+import { FormSuccess } from "@/components/ui/form-success";
+import { authClient } from "@/lib/auth-client";
+import axios from "axios";
 
 export function RegisterForm({
   callbackURL = "/dashboard",
   refCode,
   className,
   ...props
-}: React.ComponentPropsWithoutRef<"form"> & { callbackURL?: string; refCode?: string }) {
+}: React.ComponentPropsWithoutRef<"form"> & {
+  callbackURL?: string;
+  refCode?: string;
+}) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -92,7 +95,7 @@ export function RegisterForm({
       if (data) {
         try {
           await axios.post(
-            "http://localhost:5000/api/referrals",
+            "https://resonantfinance.onrender.com/api/referrals",
             {
               referrerId: refCode,
             },
@@ -111,7 +114,11 @@ export function RegisterForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={cn("flex flex-col gap-6", className)} {...props}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className={cn("flex flex-col gap-6", className)}
+        {...props}
+      >
         <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-2xl font-bold">Create an account</h1>
           <p className="text-balance text-sm text-muted-foreground">
@@ -226,11 +233,7 @@ export function RegisterForm({
           />
           <FormError message={error} />
           <FormSuccess message={success} />
-          <Button
-            disabled={isPending}
-            type="submit"
-            className="w-full"
-          >
+          <Button disabled={isPending} type="submit" className="w-full">
             {isPending ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
@@ -253,5 +256,5 @@ export function RegisterForm({
         </div>
       </form>
     </Form>
-  )
+  );
 }

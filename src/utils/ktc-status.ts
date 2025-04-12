@@ -3,7 +3,7 @@ import axios from "axios";
 export const checkKYCStatus = async () => {
   let status = null;
   await axios
-    .get("http://localhost:5000/api/kyc/status", {
+    .get("https://resonantfinance.onrender.com/api/kyc/status", {
       withCredentials: true,
     })
     .then((res) => {

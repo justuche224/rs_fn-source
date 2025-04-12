@@ -18,7 +18,7 @@ export const authClient = createAuthClient({
       },
     }),
   ],
-  baseURL: "http://localhost:5000",
+  baseURL: "https://resonantfinance.onrender.com",
   fetchOptions: {
     onError: async (context) => {
       const { response } = context;

@@ -14,14 +14,17 @@ export interface Stats {
 }
 
 export const getReferrals = async (): Promise<Referral[]> => {
-  const ref = await axios.get("http://localhost:5000/api/referrals", {
-    withCredentials: true,
-  });
+  const ref = await axios.get(
+    "https://resonantfinance.onrender.com/api/referrals",
+    {
+      withCredentials: true,
+    }
+  );
   return ref.data.data;
 };
 export const getReferralStata = async (): Promise<Stats> => {
   const ref = await axios.get(
-    "http://localhost:5000/api/referrals/stats",
+    "https://resonantfinance.onrender.com/api/referrals/stats",
     {
       withCredentials: true,
     }

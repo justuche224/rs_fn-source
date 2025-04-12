@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000/api/plans";
+const BASE_URL = "https://resonantfinance.onrender.com/api/plans";
 
 export interface Plan {
   id: string;

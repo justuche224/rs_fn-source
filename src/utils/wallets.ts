@@ -49,7 +49,7 @@ export const uploadSystemWallet = async (
   formData.append("address", address);
   formData.append("wallQRCode", wallQRCode);
   const res = await axios.post(
-    "http://localhost:5000/api/wallet/system",
+    "https://resonantfinance.onrender.com/api/wallet/system",
     formData,
     {
       withCredentials: true,
@@ -64,7 +64,7 @@ export const uploadSystemWallet = async (
 
 export const getSystemWallets = async (): Promise<SystemWalletGetResponse> => {
   const res = await axios.get(
-    "http://localhost:5000/api/wallet/system",
+    "https://resonantfinance.onrender.com/api/wallet/system",
     {
       withCredentials: true,
     }
@@ -73,9 +73,12 @@ export const getSystemWallets = async (): Promise<SystemWalletGetResponse> => {
 };
 
 export const deleteSystemWallet = async (id: string): Promise<void> => {
-  await axios.delete(`http://localhost:5000/api/wallet/system/${id}`, {
-    withCredentials: true,
-  });
+  await axios.delete(
+    `https://resonantfinance.onrender.com/api/wallet/system/${id}`,
+    {
+      withCredentials: true,
+    }
+  );
 };
 
 export const createUserWallet = async (
@@ -83,7 +86,7 @@ export const createUserWallet = async (
   address: string
 ): Promise<UserWalletCreateResponse> => {
   const res = await axios.post(
-    "http://localhost:5000/api/wallet",
+    "https://resonantfinance.onrender.com/api/wallet",
     {
       currency,
       address,
@@ -97,7 +100,7 @@ export const createUserWallet = async (
 
 export const getUserWallets = async (): Promise<UserWallet[]> => {
   const res = await axios.get(
-    "http://localhost:5000/api/wallet/info",
+    "https://resonantfinance.onrender.com/api/wallet/info",
     {
       withCredentials: true,
     }
@@ -106,7 +109,7 @@ export const getUserWallets = async (): Promise<UserWallet[]> => {
 };
 
 export const deleteUserWallet = async (id: string): Promise<void> => {
-  await axios.delete(`http://localhost:5000/api/wallet/${id}`, {
+  await axios.delete(`https://resonantfinance.onrender.com/api/wallet/${id}`, {
     withCredentials: true,
   });
 };
