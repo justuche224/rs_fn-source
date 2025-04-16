@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Eye, Loader2, Search, Trash, UserX } from "lucide-react";
+import { Eye, Loader2, Search, Trash, UserX, Wallet } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -32,8 +32,23 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 import { getAllUsers, deleteUser, getUserById } from "@/utils/users";
+import {
+  adminAdjustBalance,
+  type Currency,
+  type AdminAdjustBalanceResponse,
+  getSpecificUserIndividualBalance,
+  type Balance,
+} from "@/utils/balance";
 
 interface User {
   id: string;
@@ -61,6 +76,13 @@ export default function UserAdminPage() {
   const [userDetailOpen, setUserDetailOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [processingDelete, setProcessingDelete] = useState(false);
+  const [adjustBalanceDialogOpen, setAdjustBalanceDialogOpen] = useState(false);
+  const [adjustUserId, setAdjustUserId] = useState<string | null>(null);
+  const [adjustCurrency, setAdjustCurrency] = useState<Currency | "">("");
+  const [adjustAmount, setAdjustAmount] = useState("");
+  const [processingAdjust, setProcessingAdjust] = useState(false);
+  const [loadingBalances, setLoadingBalances] = useState(false);
+  const [currentUserBalances, setCurrentUserBalances] = useState<Balance | null>(null);
 
   const fetchUsers = async () => {
     try {
@@ -163,6 +185,61 @@ export default function UserAdminPage() {
         Unverified
       </Badge>
     );
+  };
+
+  const handleOpenAdjustBalance = async (userId: string) => {
+    setAdjustUserId(userId);
+    setAdjustCurrency("");
+    setAdjustAmount("");
+    setCurrentUserBalances(null);
+    setLoadingBalances(true);
+    setAdjustBalanceDialogOpen(true);
+    setProcessingAdjust(false);
+
+    try {
+      const balances = await getSpecificUserIndividualBalance(userId);
+      setCurrentUserBalances(balances);
+    } catch (error) {
+      console.error("Failed to fetch user balances:", error);
+      toast.error("Failed to load user balances");
+    } finally {
+      setLoadingBalances(false);
+    }
+  };
+
+  const handleAdjustBalanceSubmit = async () => {
+    if (!adjustUserId || !adjustCurrency || !adjustAmount) {
+      toast.error("Please select a currency and enter an amount.");
+      return;
+    }
+
+    if (!/^-?\d+$/.test(adjustAmount)) {
+      toast.error("Amount must be a whole number (positive or negative).");
+      return;
+    }
+
+    setProcessingAdjust(true);
+    try {
+      const result: AdminAdjustBalanceResponse = await adminAdjustBalance({
+        userId: adjustUserId,
+        currency: adjustCurrency,
+        amount: adjustAmount,
+      });
+      toast.success(
+        `Successfully adjusted ${adjustCurrency} balance. New balance: ${result.newBalance}`
+      );
+      setAdjustBalanceDialogOpen(false);
+      setCurrentUserBalances(null);
+    } catch (error: any) {
+      console.error("Balance adjustment error:", error);
+      const errorMsg =
+        error.response?.data?.error ||
+        error.message ||
+        "Failed to adjust balance";
+      toast.error(errorMsg);
+    } finally {
+      setProcessingAdjust(false);
+    }
   };
 
   return (
@@ -278,6 +355,15 @@ export default function UserAdminPage() {
                         >
                           <Eye className="h-4 w-4 mr-1" />
                           View
+                        </Button>
+                        <Button
+                          className="cursor-pointer"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleOpenAdjustBalance(user.id)}
+                        >
+                          <Wallet className="h-4 w-4 mr-1" />
+                          Adjust
                         </Button>
                         <Button
                           variant="destructive"
@@ -455,6 +541,117 @@ export default function UserAdminPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Adjust Balance Dialog */}
+      <Dialog
+        open={adjustBalanceDialogOpen}
+        onOpenChange={(open) => {
+          if (!processingAdjust) {
+            setAdjustBalanceDialogOpen(open);
+            if (!open) {
+              setAdjustUserId(null);
+              setAdjustCurrency("");
+              setAdjustAmount("");
+              setCurrentUserBalances(null);
+            }
+          }
+        }}
+      >
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Adjust User Balance</DialogTitle>
+            <DialogDescription>
+              View current balances and adjust for a specific currency. Enter the
+              amount to add (e.g., 100) or remove (e.g., -50).
+            </DialogDescription>
+          </DialogHeader>
+          {loadingBalances ? (
+            <div className="flex justify-center items-center py-4">
+              <Loader2 className="animate-spin mr-2" /> Loading balances...
+            </div>
+          ) : currentUserBalances ? (
+            <div className="my-4 px-1">
+              <h4 className="font-semibold mb-2">Current Balances:</h4>
+              <div className="text-sm grid grid-cols-3 gap-x-4 gap-y-1">
+                {Object.entries(currentUserBalances).map(([currency, amount]) => (
+                  <div key={currency}>
+                    <span className="font-medium">{currency}:</span> {String(amount)}
+                  </div>
+                ))}
+                {Object.keys(currentUserBalances).length === 0 && (
+                  <div className="col-span-3 text-gray-500">No balances found.</div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="text-center py-4 text-gray-500">Could not load balances.</div>
+          )}
+          <div className="grid gap-4 pt-1 pb-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="currency" className="text-right">
+                Currency
+              </Label>
+              <Select
+                value={adjustCurrency}
+                onValueChange={(value) => setAdjustCurrency(value as Currency | "")}
+                disabled={processingAdjust}
+              >
+                <SelectTrigger className="col-span-3" id="currency">
+                  <SelectValue placeholder="Select Currency" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="BTC">BTC</SelectItem>
+                  <SelectItem value="ETH">ETH</SelectItem>
+                  <SelectItem value="USDT">USDT</SelectItem>
+                  <SelectItem value="SOL">SOL</SelectItem>
+                  <SelectItem value="BNB">BNB</SelectItem>
+                  <SelectItem value="LTC">LTC</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="amount" className="text-right">
+                Amount
+              </Label>
+              <Input
+                id="amount"
+                type="number"
+                placeholder="e.g., 100 or -50"
+                value={adjustAmount}
+                onChange={(e) => setAdjustAmount(e.target.value)}
+                className="col-span-3"
+                disabled={processingAdjust}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setAdjustBalanceDialogOpen(false)}
+              disabled={processingAdjust}
+              className="cursor-pointer"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleAdjustBalanceSubmit}
+              disabled={
+                processingAdjust || !adjustCurrency || adjustAmount === ""
+              }
+              className="cursor-pointer"
+            >
+              {processingAdjust ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Adjusting...
+                </>
+              ) : (
+                "Adjust Balance"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

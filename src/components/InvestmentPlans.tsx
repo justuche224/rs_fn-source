@@ -1,52 +1,45 @@
-import { Link } from '@tanstack/react-router'
-import { motion } from 'framer-motion'
-import { 
-  Card,
-  CardContent,
-  CardFooter
-} from './ui/card'
-import { Button } from './ui/button'
+import { Link } from "@tanstack/react-router";
+import { motion } from "framer-motion";
+import { Card, CardContent, CardFooter } from "./ui/card";
+import { Button } from "./ui/button";
 
 export function InvestmentPlans() {
+  //   1,000 - 10,000 (4% 3 months) - Bronze Plan
+
+  // 25,000 - 250,000 (6% 6 months) - Silver Plan
+
+  // 300,000 - 500,000 (10% 1 year) - Gold plan
   const plans = [
-    {
-      title: "Basic Plan",
-      icon: "piggy-bank.png",
-      minDeposit: "$30",
-      maxDeposit: "$499",
-      duration: "24hrs",
-      roi: "10%"
-    },
     {
       title: "Bronze Plan",
       icon: "suitcase.png",
-      minDeposit: "$500",
-      maxDeposit: "$999",
-      duration: "48hrs",
-      roi: "25%"
+      minDeposit: "$1,000",
+      maxDeposit: "$10,000",
+      duration: "3 Months",
+      roi: "4%",
     },
     {
       title: "Silver Plan",
       icon: "cloudcoin.png",
-      minDeposit: "$1,000",
-      maxDeposit: "$9,999",
-      duration: "7 days",
-      roi: "50%"
+      minDeposit: "$25,000",
+      maxDeposit: "$250,000",
+      duration: "6 Months",
+      roi: "6%",
     },
     {
       title: "Gold Plan",
       icon: "officebank.png",
-      minDeposit: "$10,000",
-      maxDeposit: "$1,000,000",
-      duration: "3 months",
-      roi: "60%"
-    }
-  ]
+      minDeposit: "$300,000",
+      maxDeposit: "$500,000",
+      duration: "1 Year",
+      roi: "10%",
+    },
+  ];
 
   return (
     <section className="py-16">
       <div className="container mx-auto px-4 md:px-6">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -57,7 +50,8 @@ export function InvestmentPlans() {
             Our Plans
           </h2>
           <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-            Here's a brief breakdown of our flexible investment plans crafted for everyone.
+            Here's a brief breakdown of our flexible investment plans crafted
+            for everyone.
           </p>
         </motion.div>
 
@@ -83,32 +77,39 @@ export function InvestmentPlans() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 interface PlanCardProps {
-  title: string
-  icon: string
-  minDeposit: string
-  maxDeposit: string
-  duration: string
-  roi: string
+  title: string;
+  icon: string;
+  minDeposit: string;
+  maxDeposit: string;
+  duration: string;
+  roi: string;
 }
 
-function PlanCard({ title, icon, minDeposit, maxDeposit, duration, roi }: PlanCardProps) {
+function PlanCard({
+  title,
+  icon,
+  minDeposit,
+  maxDeposit,
+  duration,
+  roi,
+}: PlanCardProps) {
   return (
     <Card className="shadow-xl border-0 text-center h-full bg-sidebar ">
       <CardContent className="pt-8 px-6 flex flex-col items-center">
-        <img 
+        <img
           src={`/assets/images/${icon}`}
           alt={title}
           className="w-20 h-20 object-contain mb-4"
         />
-        
+
         <h3 className="text-xl font-bold text-[#273272] mb-2">{title}</h3>
-        
+
         <hr className="w-1/2 h-0.5 bg-[#273272] my-2" />
-        
+
         <ul className="space-y-3 mt-4 mb-6">
           <li className="">
             Minimum Deposit: <strong>{minDeposit}</strong>
@@ -124,9 +125,9 @@ function PlanCard({ title, icon, minDeposit, maxDeposit, duration, roi }: PlanCa
           </li>
         </ul>
       </CardContent>
-      
+
       <CardFooter className="pb-8 pt-0 px-6 flex justify-center">
-        <Button 
+        <Button
           asChild
           className="bg-[#e93c05] hover:bg-[#011a41] text-white font-semibold transition-colors"
         >
@@ -134,5 +135,5 @@ function PlanCard({ title, icon, minDeposit, maxDeposit, duration, roi }: PlanCa
         </Button>
       </CardFooter>
     </Card>
-  )
-} 
+  );
+}
