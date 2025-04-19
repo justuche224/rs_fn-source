@@ -4,7 +4,7 @@ import axios from "axios";
 // Export the Balance type directly
 export type { UserBalance as Balance };
 
-const BASE_URL = "https://resonantfinance.onrender.com/api/balance";
+const BASE_URL = "https://api.resonantfinance.org/api/balance";
 
 export const getTotalSystemBalance = async (): Promise<number> => {
   const response = await axios.get(`${BASE_URL}/total`, {

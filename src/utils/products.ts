@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://resonantfinance.onrender.com/api/products";
+const BASE_URL = "https://api.resonantfinance.org/api/products";
 
 export interface Product {
   imageUrl: string;

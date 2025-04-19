@@ -1,7 +1,7 @@
 import type { Currency } from "@/types";
 import axios from "axios";
 
-const BASE_URL = "https://resonantfinance.onrender.com/api/deposit";
+const BASE_URL = "https://api.resonantfinance.org/api/deposit";
 
 interface UserDeposit {
   id: string;

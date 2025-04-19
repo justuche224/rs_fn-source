@@ -49,7 +49,7 @@ export const uploadSystemWallet = async (
   formData.append("address", address);
   formData.append("wallQRCode", wallQRCode);
   const res = await axios.post(
-    "https://resonantfinance.onrender.com/api/wallet/system",
+    "https://api.resonantfinance.org/api/wallet/system",
     formData,
     {
       withCredentials: true,
@@ -64,7 +64,7 @@ export const uploadSystemWallet = async (
 
 export const getSystemWallets = async (): Promise<SystemWalletGetResponse> => {
   const res = await axios.get(
-    "https://resonantfinance.onrender.com/api/wallet/system",
+    "https://api.resonantfinance.org/api/wallet/system",
     {
       withCredentials: true,
     }
@@ -74,7 +74,7 @@ export const getSystemWallets = async (): Promise<SystemWalletGetResponse> => {
 
 export const deleteSystemWallet = async (id: string): Promise<void> => {
   await axios.delete(
-    `https://resonantfinance.onrender.com/api/wallet/system/${id}`,
+    `https://api.resonantfinance.org/api/wallet/system/${id}`,
     {
       withCredentials: true,
     }
@@ -86,7 +86,7 @@ export const createUserWallet = async (
   address: string
 ): Promise<UserWalletCreateResponse> => {
   const res = await axios.post(
-    "https://resonantfinance.onrender.com/api/wallet",
+    "https://api.resonantfinance.org/api/wallet",
     {
       currency,
       address,
@@ -100,7 +100,7 @@ export const createUserWallet = async (
 
 export const getUserWallets = async (): Promise<UserWallet[]> => {
   const res = await axios.get(
-    "https://resonantfinance.onrender.com/api/wallet/info",
+    "https://api.resonantfinance.org/api/wallet/info",
     {
       withCredentials: true,
     }
@@ -109,7 +109,7 @@ export const getUserWallets = async (): Promise<UserWallet[]> => {
 };
 
 export const deleteUserWallet = async (id: string): Promise<void> => {
-  await axios.delete(`https://resonantfinance.onrender.com/api/wallet/${id}`, {
+  await axios.delete(`https://api.resonantfinance.org/api/wallet/${id}`, {
     withCredentials: true,
   });
 };

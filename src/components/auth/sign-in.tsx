@@ -45,6 +45,7 @@ export function LoginForm({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log("start login")
     setError(undefined);
     setSuccess(undefined);
     startTransition(async () => {
@@ -56,15 +57,22 @@ export function LoginForm({
         },
         {
           onSuccess: () => {
+            console.log("login success")
             navigate({ to: callbackURL });
           },
           onError(context) {
+            console.log("login error")
             if (context.error.status === 403) {
               toast.error("Verify your email!");
               setSuccess(
                 "A link to verify your email has been sent to your inbox."
               );
-            } else {
+            }
+            else if (context.error.status === 429) {
+              const retryAfter = context.error.headers.get("X-Retry-After");
+              setError(`Clicking too fast! Please wait ${retryAfter} seconds before trying again.`);
+            } 
+            else {
               setError(context.error.message);
             }
           },

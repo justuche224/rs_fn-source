@@ -1,7 +1,7 @@
 import type { Currency } from "@/types";
 import axios from "axios";
 
-const BASE_URL = "https://resonantfinance.onrender.com/api/transfers";
+const BASE_URL = "https://api.resonantfinance.org/api/transfers";
 
 export const internalTransfer = async (
   fromCurrency: Currency,
