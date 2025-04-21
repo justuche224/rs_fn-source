@@ -6,24 +6,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+// import {
+//   Table,
+//   TableBody,
+//   TableCell,
+//   TableHead,
+//   TableHeader,
+//   TableRow,
+// } from "@/components/ui/table";
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   getTransactionStats,
   getUserStats,
-  transactionHistory,
+  // transactionHistory,
   type TransactionStats,
   type UserStats,
-  type TransactionHistory,
+  // type TransactionHistory,
 } from "@/utils/stats";
-import { getTotalSystemBalance, getTotalUserBalance } from "@/utils/balance";
+import { 
+  getTotalSystemBalance,
+  //  getTotalUserBalance 
+  } from "@/utils/balance";
 import {
   BarChart,
   Bar,
@@ -49,31 +52,93 @@ const AdminDashboard = () => {
   const [transactionStats, setTransactionStats] =
     useState<TransactionStats | null>(null);
   const [userStats, setUserStats] = useState<UserStats | null>(null);
-  const [transactions, setTransactions] = useState<TransactionHistory | null>(
-    null
-  );
+  const [loadingUserStats, setLoadingUserStats] = useState(true)
+  const [loadingTxStats, setLoadingTxStats] = useState(true)
+  const [loadingSysBalance, setLoadingSysBalance] = useState(true)
+  
+  // const [errorUserStats, setErrorUserStats] = useState(true)
+  // const [transactions, setTransactions] = useState<TransactionHistory | null>(
+  //   null
+  // );
   const [systemBalance, setSystemBalance] = useState<number>(0);
-  const [userBalance, setUserBalance] = useState<number>(0);
-  const [loading, setLoading] = useState(true);
+  // const [userBalance, setUserBalance] = useState<number>(0);
+  // const [loading, setLoading] = useState(true);
 
+  useEffect(()=> {
+    const fetchDashboardData = async () => {
+      try {
+        setLoadingTxStats(true);
+        const uStats = await getUserStats()
+        setUserStats(uStats);
+
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      } finally {
+        setLoadingTxStats(false);
+      }
+    };
+
+    fetchDashboardData();
+  },[])
+
+  useEffect(()=> {
+    const fetchDashboardData = async () => {
+      try {
+        setLoadingUserStats(true);
+        const txStats = await getTransactionStats()
+        setTransactionStats(txStats)
+
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      } finally {
+        setLoadingUserStats(false);
+      }
+    };
+
+    fetchDashboardData();
+  },[])
+
+  useEffect(()=> {
+    const fetchDashboardData = async () => {
+      try {
+        setLoadingSysBalance(true);
+        const sysBalance = await getTotalSystemBalance()
+        setSystemBalance(sysBalance)
+
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      } finally {
+        setLoadingSysBalance(false);
+      }
+    };
+
+    fetchDashboardData();
+  },[])
+/*
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
-        const [txStats, uStats, txHistory, sysBalance, uBalance] =
+        const [
+          // txStats, 
+          // uStats, 
+          // txHistory, 
+          sysBalance, 
+          // uBalance
+        ] =
           await Promise.all([
-            getTransactionStats(),
-            getUserStats(),
-            transactionHistory(),
+            // getTransactionStats(),
+            // getUserStats(),
+            // transactionHistory(),
             getTotalSystemBalance(),
-            getTotalUserBalance(),
+            // getTotalUserBalance(),
           ]);
 
-        setTransactionStats(txStats);
-        setUserStats(uStats);
-        setTransactions(txHistory);
+        // setTransactionStats(txStats);
+        // setUserStats(uStats);
+        // setTransactions(txHistory);
         setSystemBalance(sysBalance);
-        setUserBalance(uBalance);
+        // setUserBalance(uBalance);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
       } finally {
@@ -83,7 +148,7 @@ const AdminDashboard = () => {
 
     fetchDashboardData();
   }, []);
-
+*/
   // For user verification pie chart
   const userVerificationData = userStats
     ? [
@@ -101,11 +166,11 @@ const AdminDashboard = () => {
   const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#6366f1"];
 
   // Format date for transactions
-  const formatDate = (dateString: string | number | Date) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString();
-  };
-
+  // const formatDate = (dateString: string | number | Date) => {
+  //   const date = new Date(dateString);
+  //   return date.toLocaleDateString();
+  // };
+/*
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">
@@ -115,7 +180,7 @@ const AdminDashboard = () => {
       </div>
     );
   }
-
+*/
   return (
     <div className="p-6 bg-gray-50 dark:bg-background min-h-screen text-gray-900 dark:text-gray-100">
       <h1 className="text-3xl font-bold mb-6 dark:text-white">
@@ -132,7 +197,7 @@ const AdminDashboard = () => {
                   Total Users
                 </p>
                 <h3 className="text-2xl font-bold dark:text-white">
-                  {userStats?.totalUsers || 0}
+                  {loadingUserStats? <Loader className="animate-spin"/> : userStats?.totalUsers || 0}
                 </h3>
               </div>
               <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-full">
@@ -149,9 +214,9 @@ const AdminDashboard = () => {
                 <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
                   System Balance
                 </p>
-                <h3 className="text-2xl font-bold dark:text-white">
+               {loadingSysBalance ? <Loader className="animate-spin"/> :  <h3 className="text-2xl font-bold dark:text-white">
                   ${systemBalance.toFixed(2)}
-                </h3>
+                </h3>}
               </div>
               <div className="p-2 bg-green-100 dark:bg-green-900 rounded-full">
                 <DollarSign className="h-6 w-6 text-green-600 dark:text-green-400" />
@@ -168,11 +233,11 @@ const AdminDashboard = () => {
                   Total Deposits
                 </p>
                 <h3 className="text-2xl font-bold dark:text-white">
-                  {transactionStats?.deposits.total || 0}
+                  {loadingTxStats ? <Loader className="animate-spin"/> : transactionStats?.deposits.total || 0}
                 </h3>
                 <p className="text-sm text-green-600 dark:text-green-400 flex items-center mt-1">
                   <ArrowUpRight className="h-4 w-4 mr-1" />
-                  {transactionStats?.deposits.pending || 0} pending
+                  {loadingTxStats ? <Loader className="animate-spin"/> : transactionStats?.deposits.pending || 0} pending
                 </p>
               </div>
               <div className="p-2 bg-green-100 dark:bg-green-900 rounded-full">
@@ -190,11 +255,11 @@ const AdminDashboard = () => {
                   Total Withdrawals
                 </p>
                 <h3 className="text-2xl font-bold dark:text-white">
-                  {transactionStats?.withdrawals.total || 0}
+                  {loadingTxStats ? <Loader className="animate-spin"/> : transactionStats?.withdrawals.total || 0}
                 </h3>
                 <p className="text-sm text-red-600 dark:text-red-400 flex items-center mt-1">
                   <ArrowDownRight className="h-4 w-4 mr-1" />
-                  {transactionStats?.withdrawals.pending || 0} pending
+                  {loadingTxStats ? <Loader className="animate-spin"/> : transactionStats?.withdrawals.pending || 0} pending
                 </p>
               </div>
               <div className="p-2 bg-red-100 dark:bg-red-900 rounded-full">
@@ -217,7 +282,7 @@ const AdminDashboard = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
+            {loadingTxStats ? <Loader className="animate-spin"/> : <ResponsiveContainer width="100%" height={300}>
               <BarChart
                 data={[
                   ...(transactionStats?.deposits.approvedAmounts || []).map(
@@ -250,7 +315,7 @@ const AdminDashboard = () => {
                 <Bar dataKey="Deposits" fill="#10b981" />
                 <Bar dataKey="Withdrawals" fill="#ef4444" />
               </BarChart>
-            </ResponsiveContainer>
+            </ResponsiveContainer>}
           </CardContent>
         </Card>
 
@@ -300,7 +365,7 @@ const AdminDashboard = () => {
       </div>
 
       {/* Tabs for different data views */}
-      <Tabs defaultValue="transactions" className="mb-6">
+      {/* <Tabs defaultValue="transactions" className="mb-6">
         <TabsList className="mb-4 bg-gray-200 dark:bg-gray-700">
           <TabsTrigger
             value="transactions"
@@ -437,7 +502,7 @@ const AdminDashboard = () => {
             </CardContent>
           </Card>
         </TabsContent>
-      </Tabs>
+      </Tabs> */}
 
       {/* Pending Actions Card */}
       <Card className="mb-6 dark:bg-sidebar dark:border-gray-700">
@@ -454,7 +519,7 @@ const AdminDashboard = () => {
                 Pending Deposits
               </div>
               <div className="text-2xl font-bold dark:text-white">
-                {transactionStats?.deposits.pending || 0}
+                {loadingTxStats ? <Loader className="animate-spin"/> : transactionStats?.deposits.pending || 0}
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">
                 Require approval
@@ -465,7 +530,7 @@ const AdminDashboard = () => {
                 Pending Withdrawals
               </div>
               <div className="text-2xl font-bold dark:text-white">
-                {transactionStats?.withdrawals.pending || 0}
+                {loadingTxStats ? <Loader className="animate-spin"/> : transactionStats?.withdrawals.pending || 0}
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">
                 Require approval
@@ -476,7 +541,7 @@ const AdminDashboard = () => {
       </Card>
 
       {/* System vs User Balance */}
-      <Card className="dark:bg-sidebar dark:border-gray-700">
+      {/* <Card className="dark:bg-sidebar dark:border-gray-700">
         <CardHeader>
           <CardTitle className="dark:text-white">Balance Overview</CardTitle>
           <CardDescription className="dark:text-gray-400">
@@ -519,7 +584,7 @@ const AdminDashboard = () => {
             </div>
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   );
 };
