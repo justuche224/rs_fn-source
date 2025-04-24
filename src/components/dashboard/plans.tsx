@@ -41,7 +41,7 @@ export function PlansComponent() {
 
   if (loading) {
     return (
-      <div className="flex h-full items-center justify-center">
+      <div className="flex h-full items-center justify-center py-16">
         <Loader className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
@@ -49,9 +49,9 @@ export function PlansComponent() {
 
   if (error) {
     return (
-      <div className="flex h-full items-center justify-center">
-        <div className="rounded-lg bg-red-50 p-6 text-red-700">
-          <h2 className="text-lg font-bold">Error</h2>
+      <div className="flex h-full items-center justify-center py-16">
+        <div className="rounded-lg bg-red-100 p-6 text-red-800 border border-red-200 shadow-md">
+          <h2 className="text-lg font-bold mb-2">Error Loading Plans</h2>
           <p>{error}</p>
         </div>
       </div>
@@ -59,71 +59,64 @@ export function PlansComponent() {
   }
 
   return (
-    <div className="container py-6 mx-auto lg:w-[95%] px-10">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold">Investment Plans</h1>
-        <p className="text-muted-foreground">
-          Choose the investment plan that suits your financial goals
-        </p>
-      </div>
-
-      {plans.length === 0 ? (
-        <div className="rounded-lg border border-dashed p-8 text-center">
-          <p className="text-muted-foreground">
-            No investment plans available at the moment.
+    <section className="py-16">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="text-center mb-12">
+          <h1 className="text-3xl md:text-4xl font-bold text-[#273272] mb-3">
+            Investment Plans
+          </h1>
+          <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+            Choose the investment plan that suits your financial goals.
           </p>
         </div>
-      ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {plans.map((plan) => (
-            <Card key={plan.id} className="flex flex-col shadow bg-sidebar">
-              <CardHeader>
-                <CardTitle>{plan.type}</CardTitle>
-                <CardDescription>{plan.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="flex-grow">
-                <div className="space-y-4">
-                  <div className="text-center">
-                    <span className="text-3xl font-bold">${plan.price}</span>
-                    <span className="text-muted-foreground">
-                      {" "}
-                      minimum investment
-                    </span>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <span>ROI Range:</span>
-                      <span className="font-medium">
-                        ${plan.minRoiAmount} - ${plan.maxRoiAmount}
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Commission:</span>
-                      <span className="font-medium">{plan.commission}%</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Percentage:</span>
-                      <span className="font-medium">{plan.percentage}%</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Duration:</span>
-                      <span className="font-medium">{plan.duration} months</span>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button
-                  className="w-full cursor-pointer"
-                  onClick={() => handleInvest(plan)}
-                >
-                  Invest Now
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-      )}
-    </div>
+
+        {plans.length === 0 ? (
+          <div className="rounded-lg border border-dashed border-gray-300 p-12 text-center bg-gray-50">
+            <p className="text-lg text-muted-foreground">
+              No investment plans available at the moment. Please check back later.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {plans.map((plan) => (
+              <Card key={plan.id} className="shadow-xl border-0 text-center h-full bg-white flex flex-col">
+                <CardHeader className="pt-8 px-6">
+                  <CardTitle className="text-xl font-bold text-[#273272] mb-2">{plan.type}</CardTitle>
+                  <hr className="w-1/2 h-0.5 bg-[#273272] mx-auto my-2" />
+                  <CardDescription className="text-gray-600 px-4">{plan.description}</CardDescription>
+                </CardHeader>
+                <CardContent className="px-6 flex-grow">
+                  <ul className="space-y-3 mt-4 mb-6 text-gray-800">
+                    <li>
+                      Minimum Investment: <strong>${plan.price.toLocaleString()}</strong>
+                    </li>
+                    <li>
+                      ROI Range: <strong>${plan.minRoiAmount.toLocaleString()} - ${plan.maxRoiAmount.toLocaleString()}</strong>
+                    </li>
+                    <li>
+                      Commission: <strong>{plan.commission}%</strong>
+                    </li>
+                    <li>
+                      Percentage Return: <strong>{plan.percentage}%</strong>
+                    </li>
+                    <li>
+                      Duration: <strong>{plan.duration} months</strong>
+                    </li>
+                  </ul>
+                </CardContent>
+                <CardFooter className="pb-8 pt-0 px-6 flex justify-center">
+                  <Button
+                    className="w-full bg-[#e93c05] hover:bg-[#011a41] text-white font-semibold transition-colors cursor-pointer"
+                    onClick={() => handleInvest(plan)}
+                  >
+                    Invest Now
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
   );
 }
