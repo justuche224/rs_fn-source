@@ -239,7 +239,7 @@ export default function PlanAdminPage() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      {plan.duration} days
+                      {plan.duration} months
                       <div className="text-xs text-muted-foreground">
                         {plan.commission}% commission
                       </div>

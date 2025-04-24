@@ -151,7 +151,7 @@ function RouteComponent() {
             </div>
             <div className="flex justify-between">
               <span>Duration:</span>
-              <span className="font-medium">{plan.duration} days</span>
+              <span className="font-medium">{plan.duration} months</span>
             </div>
           </div>
 
