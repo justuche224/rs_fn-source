@@ -21,9 +21,15 @@ export const Route = createFileRoute("/dashboard/")({
   },
   loader: async () => {
     const { data } = await authClient.getSession();
+
     if (!data?.session || !data?.user) {
       throw new Error("Unauthorized");
     }
+
+    if (data.user.role === "ADMIN") {
+       redirect({ to: "/admin" });
+    }
+    
     return { user: data.user };
   },
 });

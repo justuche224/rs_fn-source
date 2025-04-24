@@ -13,8 +13,11 @@ export const Route = createFileRoute("/sign-up")({
       })
       .parse(Search);
   },
-  beforeLoad: async ({ context }) => {
+  loader: async ({ context }) => {
     const { data } = await authClient.getSession(context);
+    if (data?.session && data?.user.role === "ADMIN") {
+      return redirect({ to: "/admin" });
+    }
     if (data?.session) {
       return redirect({ to: "/dashboard" });
     }
