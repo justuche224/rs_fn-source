@@ -1,7 +1,7 @@
 import type { Currency } from "@/types";
 import axios from "axios";
 
-const BASE_URL = "https://api.resonantfinance.org/api/investments";
+const BASE_URL = "https://server.resonantfinance.org/api/investments";
 
 export const createInvestment = async ({
   planId,
@@ -38,8 +38,23 @@ export const getUserInvestmentById = async (
 
 // ADMIN
 
-export const getAllInvestments = async () => {
+export const getAllInvestments = async (): Promise<
+  {
+    id: string;
+    userId: string;
+    planId: string;
+    currency: Currency;
+    amount: number;
+    status: "PENDING" | "ACTIVE" | "COMPLETED" | "CANCELLED";
+    createdAt: string;
+    userName: string;
+    userEmail: string;
+    planType: string;
+  }[]
+> => {
+  // console.log("about to get inv")
   const res = await axios.get(`${BASE_URL}/all`, { withCredentials: true });
+  // console.log(res);
   return res.data.data;
 };
 
@@ -50,7 +65,7 @@ export const updateInvestmentStatus = async ({
   investmentId: string;
   status: "PENDING" | "ACTIVE" | "COMPLETED" | "CANCELLED";
 }) => {
-  const res = await axios.post(
+  const res = await axios.patch(
     `${BASE_URL}/${investmentId}/status`,
     { status },
     { withCredentials: true }

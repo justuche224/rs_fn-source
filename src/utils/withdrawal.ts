@@ -1,7 +1,7 @@
 import type { Currency } from "@/types";
 import axios from "axios";
 
-const BASE_URL = "https://api.resonantfinance.org/api/withdrawal";
+const BASE_URL = "https://server.resonantfinance.org/api/withdrawal";
 
 export const applyForWithdrawal = async (
   currency: Currency,

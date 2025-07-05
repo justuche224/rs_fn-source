@@ -9,6 +9,8 @@ import {
   SheetTrigger,
 } from './ui/sheet'
 import { ModeToggle } from './mode-toggle'
+import TranslateButton from './TranslateButton'
+
 export function Navbar() {
   const location = useLocation()
   const showHeaderLocations = ["/", "/about", "/our-team", "/faqs", "/contact", "/buy-crypto", "/sign-in", "/sign-up", "/reset-password", "/forgot-password"]
@@ -57,6 +59,7 @@ export function Navbar() {
                 <Link to="/sign-up">Create An Account</Link>
               </Button>
               <ModeToggle />
+              <TranslateButton />
             </div>
 
             {/* Mobile Navigation */}
@@ -83,6 +86,7 @@ export function Navbar() {
                         <Link to="/sign-up">Create An Account</Link>
                       </Button>
                       <ModeToggle />
+                      <TranslateButton />
                     </div>
                   </div>
                 </SheetContent>

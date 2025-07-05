@@ -6,7 +6,6 @@ import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
-import TranslateButton from '@/components/TranslateButton'
 
 
 export const Route = createRootRoute({
@@ -19,7 +18,6 @@ export const Route = createRootRoute({
       <Footer />
       <TanStackRouterDevtools position="bottom-right" />
       <Toaster richColors position="top-right" />
-      <TranslateButton />
      </ThemeProvider>
     </>
   ),

@@ -49,7 +49,7 @@ export const uploadSystemWallet = async (
   formData.append("address", address);
   formData.append("wallQRCode", wallQRCode);
   const res = await axios.post(
-    "https://api.resonantfinance.org/api/wallet/system",
+    "https://server.resonantfinance.org/api/wallet/system",
     formData,
     {
       withCredentials: true,
@@ -64,7 +64,7 @@ export const uploadSystemWallet = async (
 
 export const getSystemWallets = async (): Promise<SystemWalletGetResponse> => {
   const res = await axios.get(
-    "https://api.resonantfinance.org/api/wallet/system",
+    "https://server.resonantfinance.org/api/wallet/system",
     {
       withCredentials: true,
     }
@@ -74,7 +74,7 @@ export const getSystemWallets = async (): Promise<SystemWalletGetResponse> => {
 
 export const deleteSystemWallet = async (id: string): Promise<void> => {
   await axios.delete(
-    `https://api.resonantfinance.org/api/wallet/system/${id}`,
+    `https://server.resonantfinance.org/api/wallet/system/${id}`,
     {
       withCredentials: true,
     }
@@ -86,7 +86,7 @@ export const createUserWallet = async (
   address: string
 ): Promise<UserWalletCreateResponse> => {
   const res = await axios.post(
-    "https://api.resonantfinance.org/api/wallet",
+    "https://server.resonantfinance.org/api/wallet",
     {
       currency,
       address,
@@ -100,7 +100,7 @@ export const createUserWallet = async (
 
 export const getUserWallets = async (): Promise<UserWallet[]> => {
   const res = await axios.get(
-    "https://api.resonantfinance.org/api/wallet/info",
+    "https://server.resonantfinance.org/api/wallet/info",
     {
       withCredentials: true,
     }
@@ -109,7 +109,7 @@ export const getUserWallets = async (): Promise<UserWallet[]> => {
 };
 
 export const deleteUserWallet = async (id: string): Promise<void> => {
-  await axios.delete(`https://api.resonantfinance.org/api/wallet/${id}`, {
+  await axios.delete(`https://server.resonantfinance.org/api/wallet/${id}`, {
     withCredentials: true,
   });
 };

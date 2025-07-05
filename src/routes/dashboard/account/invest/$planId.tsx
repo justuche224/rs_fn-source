@@ -67,7 +67,9 @@ function RouteComponent() {
           planId: plan.id,
           currency: selectedCurrency,
         });
-
+        toast.success("Investment submitted", {
+          description: "you can check the status in the history page"
+        })
         redirect({
           to: "/dashboard/investment-history",
         });

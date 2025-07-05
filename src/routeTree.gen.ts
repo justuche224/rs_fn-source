@@ -37,6 +37,7 @@ import { Route as DashboardDepositHistoryImport } from './routes/dashboard/depos
 import { Route as DashboardAllHistoryImport } from './routes/dashboard/all-history'
 import { Route as AdminWithdrawalsImport } from './routes/admin/withdrawals'
 import { Route as AdminTransfersImport } from './routes/admin/transfers'
+import { Route as AdminInvestmentsImport } from './routes/admin/investments'
 import { Route as AdminDepositsImport } from './routes/admin/deposits'
 import { Route as DashboardWithdrawIndexImport } from './routes/dashboard/withdraw/index'
 import { Route as DashboardTransferIndexImport } from './routes/dashboard/transfer/index'
@@ -221,6 +222,12 @@ const AdminWithdrawalsRoute = AdminWithdrawalsImport.update({
 const AdminTransfersRoute = AdminTransfersImport.update({
   id: '/transfers',
   path: '/transfers',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+
+const AdminInvestmentsRoute = AdminInvestmentsImport.update({
+  id: '/investments',
+  path: '/investments',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 
@@ -481,6 +488,13 @@ declare module '@tanstack/react-router' {
       path: '/deposits'
       fullPath: '/admin/deposits'
       preLoaderRoute: typeof AdminDepositsImport
+      parentRoute: typeof AdminRouteImport
+    }
+    '/admin/investments': {
+      id: '/admin/investments'
+      path: '/investments'
+      fullPath: '/admin/investments'
+      preLoaderRoute: typeof AdminInvestmentsImport
       parentRoute: typeof AdminRouteImport
     }
     '/admin/transfers': {
@@ -763,6 +777,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteRouteChildren {
   AdminDepositsRoute: typeof AdminDepositsRoute
+  AdminInvestmentsRoute: typeof AdminInvestmentsRoute
   AdminTransfersRoute: typeof AdminTransfersRoute
   AdminWithdrawalsRoute: typeof AdminWithdrawalsRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -783,6 +798,7 @@ interface AdminRouteRouteChildren {
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminDepositsRoute: AdminDepositsRoute,
+  AdminInvestmentsRoute: AdminInvestmentsRoute,
   AdminTransfersRoute: AdminTransfersRoute,
   AdminWithdrawalsRoute: AdminWithdrawalsRoute,
   AdminIndexRoute: AdminIndexRoute,
@@ -873,6 +889,7 @@ export interface FileRoutesByFullPath {
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/admin/deposits': typeof AdminDepositsRoute
+  '/admin/investments': typeof AdminInvestmentsRoute
   '/admin/transfers': typeof AdminTransfersRoute
   '/admin/withdrawals': typeof AdminWithdrawalsRoute
   '/dashboard/all-history': typeof DashboardAllHistoryRoute
@@ -926,6 +943,7 @@ export interface FileRoutesByTo {
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/admin/deposits': typeof AdminDepositsRoute
+  '/admin/investments': typeof AdminInvestmentsRoute
   '/admin/transfers': typeof AdminTransfersRoute
   '/admin/withdrawals': typeof AdminWithdrawalsRoute
   '/dashboard/all-history': typeof DashboardAllHistoryRoute
@@ -982,6 +1000,7 @@ export interface FileRoutesById {
   '/sign-in': typeof SignInRoute
   '/sign-up': typeof SignUpRoute
   '/admin/deposits': typeof AdminDepositsRoute
+  '/admin/investments': typeof AdminInvestmentsRoute
   '/admin/transfers': typeof AdminTransfersRoute
   '/admin/withdrawals': typeof AdminWithdrawalsRoute
   '/dashboard/all-history': typeof DashboardAllHistoryRoute
@@ -1039,6 +1058,7 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/admin/deposits'
+    | '/admin/investments'
     | '/admin/transfers'
     | '/admin/withdrawals'
     | '/dashboard/all-history'
@@ -1091,6 +1111,7 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/admin/deposits'
+    | '/admin/investments'
     | '/admin/transfers'
     | '/admin/withdrawals'
     | '/dashboard/all-history'
@@ -1145,6 +1166,7 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/admin/deposits'
+    | '/admin/investments'
     | '/admin/transfers'
     | '/admin/withdrawals'
     | '/dashboard/all-history'
@@ -1251,6 +1273,7 @@ export const routeTree = rootRoute
       "filePath": "admin/route.tsx",
       "children": [
         "/admin/deposits",
+        "/admin/investments",
         "/admin/transfers",
         "/admin/withdrawals",
         "/admin/",
@@ -1325,6 +1348,10 @@ export const routeTree = rootRoute
     },
     "/admin/deposits": {
       "filePath": "admin/deposits.tsx",
+      "parent": "/admin"
+    },
+    "/admin/investments": {
+      "filePath": "admin/investments.tsx",
       "parent": "/admin"
     },
     "/admin/transfers": {
