@@ -15,7 +15,7 @@ export interface Stats {
 
 export const getReferrals = async (): Promise<Referral[]> => {
   const ref = await axios.get(
-    "https://server.resonantfinance.org/api/referrals",
+    "https://api.resonantfinance.org/api/referrals",
     {
       withCredentials: true,
     }
@@ -24,7 +24,7 @@ export const getReferrals = async (): Promise<Referral[]> => {
 };
 export const getReferralStata = async (): Promise<Stats> => {
   const ref = await axios.get(
-    "https://server.resonantfinance.org/api/referrals/stats",
+    "https://api.resonantfinance.org/api/referrals/stats",
     {
       withCredentials: true,
     }

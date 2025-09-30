@@ -32,7 +32,7 @@ export function KYCInfo() {
     const fetchKYCInfo = async () => {
       try {
         const response = await axios.get(
-          "https://server.resonantfinance.org/api/kyc/info",
+          "https://api.resonantfinance.org/api/kyc/info",
           {
             withCredentials: true,
           }

@@ -64,16 +64,13 @@ export default function KYCAdminPage() {
   const [rejectionReason, setRejectionReason] = useState("");
   const [processingId, setProcessingId] = useState<string | null>(null);
   const [isRejecting, setIsRejecting] = useState(false);
-  // https://server.resonantfinance.org
+  // https://api.resonantfinance.org
   const fetchKYCData = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        "https://server.resonantfinance.org/api/kyc",
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.get("https://api.resonantfinance.org/api/kyc", {
+        withCredentials: true,
+      });
       setKycData(res.data.data);
     } catch (error) {
       toast.error("Failed to fetch KYC data");
@@ -86,7 +83,7 @@ export default function KYCAdminPage() {
     setProcessingId(id);
     await axios
       .put(
-        `https://server.resonantfinance.org/api/kyc/status`,
+        `https://api.resonantfinance.org/api/kyc/status`,
         {
           kycId: id,
           status: "APPROVED",
@@ -114,7 +111,7 @@ export default function KYCAdminPage() {
     setProcessingId(id);
     await axios
       .put(
-        `https://server.resonantfinance.org/api/kyc/status`,
+        `https://api.resonantfinance.org/api/kyc/status`,
         {
           kycId: id,
           status: "REJECTED",
@@ -293,7 +290,7 @@ export default function KYCAdminPage() {
               <TabsContent value="front" className="flex justify-center">
                 <div className="border rounded-md overflow-hidden max-h-[500px]">
                   <img
-                    src={`https://server.resonantfinance.org/api/kyc/images/${selectedDocument.frontImage}`}
+                    src={`https://api.resonantfinance.org/api/kyc/images/${selectedDocument.frontImage}`}
                     alt="Front Document"
                     className="object-contain max-h-[400px]"
                   />
@@ -303,7 +300,7 @@ export default function KYCAdminPage() {
               <TabsContent value="back" className="flex justify-center">
                 <div className="border rounded-md overflow-hidden max-h-[500px]">
                   <img
-                    src={`https://server.resonantfinance.org/api/kyc/images/${selectedDocument.backImage}`}
+                    src={`https://api.resonantfinance.org/api/kyc/images/${selectedDocument.backImage}`}
                     alt="Back Document"
                     className="object-contain max-h-[400px]"
                   />
@@ -313,7 +310,7 @@ export default function KYCAdminPage() {
               <TabsContent value="selfie" className="flex justify-center">
                 <div className="border rounded-md overflow-hidden max-h-[500px]">
                   <img
-                    src={`https://server.resonantfinance.org/api/kyc/images/${selectedDocument.selfieImage}`}
+                    src={`https://api.resonantfinance.org/api/kyc/images/${selectedDocument.selfieImage}`}
                     alt="Selfie"
                     className="object-contain max-h-[400px]"
                   />
