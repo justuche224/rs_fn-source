@@ -1,7 +1,7 @@
 import type { Currency } from "@/types";
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000/api/investments";
+const BASE_URL = "https://api.resonantfinance.org/api/investments";
 
 export const createInvestment = async ({
   planId,

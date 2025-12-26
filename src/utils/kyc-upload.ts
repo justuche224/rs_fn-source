@@ -28,7 +28,7 @@ export const uploadKYC = async (
   formData.append("userId", userId);
 
   const response = await axios.post(
-    "http://localhost:5000/api/kyc/upload",
+    "https://api.resonantfinance.org/api/kyc/upload",
     formData,
     {
       withCredentials: true,

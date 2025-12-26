@@ -1,7 +1,7 @@
 import type { Currency } from "@/types";
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000/api/liquidation";
+const BASE_URL = "https://api.resonantfinance.org/api/liquidation";
 
 export interface LiquidationSettings {
   id: string;
@@ -70,10 +70,13 @@ export interface CreateLiquidationResponse {
   createdAt: string;
 }
 
-export const getLiquidationSettings = async (): Promise<LiquidationSettings | null> => {
-  const res = await axios.get(`${BASE_URL}/settings`, { withCredentials: true });
-  return res.data.data;
-};
+export const getLiquidationSettings =
+  async (): Promise<LiquidationSettings | null> => {
+    const res = await axios.get(`${BASE_URL}/settings`, {
+      withCredentials: true,
+    });
+    return res.data.data;
+  };
 
 export const updateLiquidationSettings = async (
   maxLiquidationPercentage: number | null,
@@ -88,8 +91,12 @@ export const updateLiquidationSettings = async (
   return res.data.data;
 };
 
-export const getLiquidationGasWallets = async (): Promise<LiquidationGasWallet[]> => {
-  const res = await axios.get(`${BASE_URL}/gas-wallets`, { withCredentials: true });
+export const getLiquidationGasWallets = async (): Promise<
+  LiquidationGasWallet[]
+> => {
+  const res = await axios.get(`${BASE_URL}/gas-wallets`, {
+    withCredentials: true,
+  });
   return res.data.data;
 };
 
@@ -117,7 +124,9 @@ export const createLiquidationGasWallet = async (
 };
 
 export const deleteLiquidationGasWallet = async (id: string): Promise<void> => {
-  await axios.delete(`${BASE_URL}/gas-wallets/${id}`, { withCredentials: true });
+  await axios.delete(`${BASE_URL}/gas-wallets/${id}`, {
+    withCredentials: true,
+  });
 };
 
 export const validateLiquidation = async (
@@ -258,4 +267,3 @@ export const NETWORKS = [
   { value: "Litecoin", label: "Litecoin Network" },
   { value: "Polygon", label: "Polygon Network" },
 ] as const;
-

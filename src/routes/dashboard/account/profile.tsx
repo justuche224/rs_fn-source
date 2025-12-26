@@ -162,7 +162,7 @@ function AccountPage() {
           formData.append("image", profileImage);
 
           await axios.put(
-            `http://localhost:5000/api/users/${fullUserInfo.id}/profile-picture`,
+            `https://api.resonantfinance.org/api/users/${fullUserInfo.id}/profile-picture`,
             formData,
             { withCredentials: true }
           );
