@@ -31,12 +31,9 @@ export function KYCInfo() {
   useEffect(() => {
     const fetchKYCInfo = async () => {
       try {
-        const response = await axios.get(
-          "https://api.resonantfinance.org/api/kyc/info",
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get("http://localhost:5000/api/kyc/info", {
+          withCredentials: true,
+        });
         setKycData(response.data);
       } catch (err) {
         setError(err instanceof Error ? err.message : "An error occurred");

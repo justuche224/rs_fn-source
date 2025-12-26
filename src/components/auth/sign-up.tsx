@@ -95,7 +95,7 @@ export function RegisterForm({
       if (data) {
         try {
           await axios.post(
-            "https://api.resonantfinance.org/api/referrals",
+            "http://localhost:5000/api/referrals",
             {
               referrerId: refCode,
             },

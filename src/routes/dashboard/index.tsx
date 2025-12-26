@@ -11,26 +11,21 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 export const Route = createFileRoute("/dashboard/")({
   component: RouteComponent,
   beforeLoad: async ({ context }) => {
-    const { data } = await authClient.getSession(context);
+        const { data } = await authClient.getSession(context);
     if (!data?.session) {
-      return redirect({ to: "/sign-in" });
+      throw redirect({ to: "/sign-in" });
     }
     if (data.user.role === "ADMIN") {
-      return redirect({ to: "/admin" });
+      throw redirect({ to: "/admin" });
     }
+    return { user: data.user };
   },
-  loader: async () => {
-    const { data } = await authClient.getSession();
-
-    if (!data?.session || !data?.user) {
+  loader: async ({ context }) => {
+    const { user } = context;
+    if (!user) {
       throw new Error("Unauthorized");
     }
-
-    if (data.user.role === "ADMIN") {
-       redirect({ to: "/admin" });
-    }
-    
-    return { user: data.user };
+    return { user };
   },
 });
 

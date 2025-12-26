@@ -16,6 +16,7 @@ import {
   UserPen,
   Wallet,
   Share,
+  DollarSign,
 } from "lucide-react";
 import {
   Collapsible,
@@ -119,6 +120,11 @@ const data = {
       url: "/dashboard/account/wallet",
       icon: Wallet,
     },
+    {
+      title: "Liquidate assets",
+      url: "/dashboard/account/liquidate",
+      icon: DollarSign,
+    }
   ],
   navSecondary: [
     {

@@ -49,7 +49,7 @@ export const uploadSystemWallet = async (
   formData.append("address", address);
   formData.append("wallQRCode", wallQRCode);
   const res = await axios.post(
-    "https://api.resonantfinance.org/api/wallet/system",
+    "http://localhost:5000/api/wallet/system",
     formData,
     {
       withCredentials: true,
@@ -63,22 +63,16 @@ export const uploadSystemWallet = async (
 };
 
 export const getSystemWallets = async (): Promise<SystemWalletGetResponse> => {
-  const res = await axios.get(
-    "https://api.resonantfinance.org/api/wallet/system",
-    {
-      withCredentials: true,
-    }
-  );
+  const res = await axios.get("http://localhost:5000/api/wallet/system", {
+    withCredentials: true,
+  });
   return res.data.data;
 };
 
 export const deleteSystemWallet = async (id: string): Promise<void> => {
-  await axios.delete(
-    `https://api.resonantfinance.org/api/wallet/system/${id}`,
-    {
-      withCredentials: true,
-    }
-  );
+  await axios.delete(`http://localhost:5000/api/wallet/system/${id}`, {
+    withCredentials: true,
+  });
 };
 
 export const createUserWallet = async (
@@ -86,7 +80,7 @@ export const createUserWallet = async (
   address: string
 ): Promise<UserWalletCreateResponse> => {
   const res = await axios.post(
-    "https://api.resonantfinance.org/api/wallet",
+    "http://localhost:5000/api/wallet",
     {
       currency,
       address,
@@ -99,17 +93,14 @@ export const createUserWallet = async (
 };
 
 export const getUserWallets = async (): Promise<UserWallet[]> => {
-  const res = await axios.get(
-    "https://api.resonantfinance.org/api/wallet/info",
-    {
-      withCredentials: true,
-    }
-  );
+  const res = await axios.get("http://localhost:5000/api/wallet/info", {
+    withCredentials: true,
+  });
   return res.data.wallets;
 };
 
 export const deleteUserWallet = async (id: string): Promise<void> => {
-  await axios.delete(`https://api.resonantfinance.org/api/wallet/${id}`, {
+  await axios.delete(`http://localhost:5000/api/wallet/${id}`, {
     withCredentials: true,
   });
 };
