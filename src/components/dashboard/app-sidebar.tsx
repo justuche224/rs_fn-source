@@ -17,6 +17,7 @@ import {
   Wallet,
   Share,
   DollarSign,
+  Banknote,
 } from "lucide-react";
 import {
   Collapsible,
@@ -99,6 +100,11 @@ const data = {
       icon: Share,
     },
     {
+      title: "Liquidation History",
+      url: "/dashboard/liquidation-history",
+      icon: Banknote,
+    },
+    {
       title: "All History",
       url: "/dashboard/all-history",
       icon: HistoryIcon,
@@ -124,7 +130,7 @@ const data = {
       title: "Liquidate assets",
       url: "/dashboard/account/liquidate",
       icon: DollarSign,
-    }
+    },
   ],
   navSecondary: [
     {

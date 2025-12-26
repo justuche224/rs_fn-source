@@ -32,11 +32,13 @@ import { Route as DashboardSettingsImport } from './routes/dashboard/settings'
 import { Route as DashboardReferralsImport } from './routes/dashboard/referrals'
 import { Route as DashboardPlansImport } from './routes/dashboard/plans'
 import { Route as DashboardNotificationsImport } from './routes/dashboard/notifications'
+import { Route as DashboardLiquidationHistoryImport } from './routes/dashboard/liquidation-history'
 import { Route as DashboardInvestmentHistoryImport } from './routes/dashboard/investment-history'
 import { Route as DashboardDepositHistoryImport } from './routes/dashboard/deposit-history'
 import { Route as DashboardAllHistoryImport } from './routes/dashboard/all-history'
 import { Route as AdminWithdrawalsImport } from './routes/admin/withdrawals'
 import { Route as AdminTransfersImport } from './routes/admin/transfers'
+import { Route as AdminLiquidationsImport } from './routes/admin/liquidations'
 import { Route as AdminInvestmentsImport } from './routes/admin/investments'
 import { Route as AdminDepositsImport } from './routes/admin/deposits'
 import { Route as DashboardWithdrawIndexImport } from './routes/dashboard/withdraw/index'
@@ -56,6 +58,7 @@ import { Route as AdminProductsNewImport } from './routes/admin/products/new'
 import { Route as AdminPlansNewImport } from './routes/admin/plans/new'
 import { Route as AdminKycKycIdImport } from './routes/admin/kyc/$kycId'
 import { Route as AdminCategoriesNewImport } from './routes/admin/categories/new'
+import { Route as DashboardAccountLiquidateIndexImport } from './routes/dashboard/account/liquidate/index'
 import { Route as DashboardAccountKycIndexImport } from './routes/dashboard/account/kyc/index'
 import { Route as DashboardAccountKycRejectedImport } from './routes/dashboard/account/kyc/rejected'
 import { Route as DashboardAccountKycPendingImport } from './routes/dashboard/account/kyc/pending'
@@ -193,6 +196,13 @@ const DashboardNotificationsRoute = DashboardNotificationsImport.update({
   getParentRoute: () => DashboardRouteRoute,
 } as any)
 
+const DashboardLiquidationHistoryRoute =
+  DashboardLiquidationHistoryImport.update({
+    id: '/liquidation-history',
+    path: '/liquidation-history',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+
 const DashboardInvestmentHistoryRoute = DashboardInvestmentHistoryImport.update(
   {
     id: '/investment-history',
@@ -222,6 +232,12 @@ const AdminWithdrawalsRoute = AdminWithdrawalsImport.update({
 const AdminTransfersRoute = AdminTransfersImport.update({
   id: '/transfers',
   path: '/transfers',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+
+const AdminLiquidationsRoute = AdminLiquidationsImport.update({
+  id: '/liquidations',
+  path: '/liquidations',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 
@@ -338,6 +354,13 @@ const AdminCategoriesNewRoute = AdminCategoriesNewImport.update({
   path: '/categories/new',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+
+const DashboardAccountLiquidateIndexRoute =
+  DashboardAccountLiquidateIndexImport.update({
+    id: '/account/liquidate/',
+    path: '/account/liquidate/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 
 const DashboardAccountKycIndexRoute = DashboardAccountKycIndexImport.update({
   id: '/account/kyc/',
@@ -497,6 +520,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminInvestmentsImport
       parentRoute: typeof AdminRouteImport
     }
+    '/admin/liquidations': {
+      id: '/admin/liquidations'
+      path: '/liquidations'
+      fullPath: '/admin/liquidations'
+      preLoaderRoute: typeof AdminLiquidationsImport
+      parentRoute: typeof AdminRouteImport
+    }
     '/admin/transfers': {
       id: '/admin/transfers'
       path: '/transfers'
@@ -530,6 +560,13 @@ declare module '@tanstack/react-router' {
       path: '/investment-history'
       fullPath: '/dashboard/investment-history'
       preLoaderRoute: typeof DashboardInvestmentHistoryImport
+      parentRoute: typeof DashboardRouteImport
+    }
+    '/dashboard/liquidation-history': {
+      id: '/dashboard/liquidation-history'
+      path: '/liquidation-history'
+      fullPath: '/dashboard/liquidation-history'
+      preLoaderRoute: typeof DashboardLiquidationHistoryImport
       parentRoute: typeof DashboardRouteImport
     }
     '/dashboard/notifications': {
@@ -770,6 +807,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAccountKycIndexImport
       parentRoute: typeof DashboardRouteImport
     }
+    '/dashboard/account/liquidate/': {
+      id: '/dashboard/account/liquidate/'
+      path: '/account/liquidate'
+      fullPath: '/dashboard/account/liquidate'
+      preLoaderRoute: typeof DashboardAccountLiquidateIndexImport
+      parentRoute: typeof DashboardRouteImport
+    }
   }
 }
 
@@ -778,6 +822,7 @@ declare module '@tanstack/react-router' {
 interface AdminRouteRouteChildren {
   AdminDepositsRoute: typeof AdminDepositsRoute
   AdminInvestmentsRoute: typeof AdminInvestmentsRoute
+  AdminLiquidationsRoute: typeof AdminLiquidationsRoute
   AdminTransfersRoute: typeof AdminTransfersRoute
   AdminWithdrawalsRoute: typeof AdminWithdrawalsRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -799,6 +844,7 @@ interface AdminRouteRouteChildren {
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminDepositsRoute: AdminDepositsRoute,
   AdminInvestmentsRoute: AdminInvestmentsRoute,
+  AdminLiquidationsRoute: AdminLiquidationsRoute,
   AdminTransfersRoute: AdminTransfersRoute,
   AdminWithdrawalsRoute: AdminWithdrawalsRoute,
   AdminIndexRoute: AdminIndexRoute,
@@ -825,6 +871,7 @@ interface DashboardRouteRouteChildren {
   DashboardAllHistoryRoute: typeof DashboardAllHistoryRoute
   DashboardDepositHistoryRoute: typeof DashboardDepositHistoryRoute
   DashboardInvestmentHistoryRoute: typeof DashboardInvestmentHistoryRoute
+  DashboardLiquidationHistoryRoute: typeof DashboardLiquidationHistoryRoute
   DashboardNotificationsRoute: typeof DashboardNotificationsRoute
   DashboardPlansRoute: typeof DashboardPlansRoute
   DashboardReferralsRoute: typeof DashboardReferralsRoute
@@ -844,12 +891,14 @@ interface DashboardRouteRouteChildren {
   DashboardAccountKycPendingRoute: typeof DashboardAccountKycPendingRoute
   DashboardAccountKycRejectedRoute: typeof DashboardAccountKycRejectedRoute
   DashboardAccountKycIndexRoute: typeof DashboardAccountKycIndexRoute
+  DashboardAccountLiquidateIndexRoute: typeof DashboardAccountLiquidateIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardAllHistoryRoute: DashboardAllHistoryRoute,
   DashboardDepositHistoryRoute: DashboardDepositHistoryRoute,
   DashboardInvestmentHistoryRoute: DashboardInvestmentHistoryRoute,
+  DashboardLiquidationHistoryRoute: DashboardLiquidationHistoryRoute,
   DashboardNotificationsRoute: DashboardNotificationsRoute,
   DashboardPlansRoute: DashboardPlansRoute,
   DashboardReferralsRoute: DashboardReferralsRoute,
@@ -869,6 +918,7 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardAccountKycPendingRoute: DashboardAccountKycPendingRoute,
   DashboardAccountKycRejectedRoute: DashboardAccountKycRejectedRoute,
   DashboardAccountKycIndexRoute: DashboardAccountKycIndexRoute,
+  DashboardAccountLiquidateIndexRoute: DashboardAccountLiquidateIndexRoute,
 }
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
@@ -890,11 +940,13 @@ export interface FileRoutesByFullPath {
   '/sign-up': typeof SignUpRoute
   '/admin/deposits': typeof AdminDepositsRoute
   '/admin/investments': typeof AdminInvestmentsRoute
+  '/admin/liquidations': typeof AdminLiquidationsRoute
   '/admin/transfers': typeof AdminTransfersRoute
   '/admin/withdrawals': typeof AdminWithdrawalsRoute
   '/dashboard/all-history': typeof DashboardAllHistoryRoute
   '/dashboard/deposit-history': typeof DashboardDepositHistoryRoute
   '/dashboard/investment-history': typeof DashboardInvestmentHistoryRoute
+  '/dashboard/liquidation-history': typeof DashboardLiquidationHistoryRoute
   '/dashboard/notifications': typeof DashboardNotificationsRoute
   '/dashboard/plans': typeof DashboardPlansRoute
   '/dashboard/referrals': typeof DashboardReferralsRoute
@@ -929,6 +981,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/account/kyc/pending': typeof DashboardAccountKycPendingRoute
   '/dashboard/account/kyc/rejected': typeof DashboardAccountKycRejectedRoute
   '/dashboard/account/kyc': typeof DashboardAccountKycIndexRoute
+  '/dashboard/account/liquidate': typeof DashboardAccountLiquidateIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -944,11 +997,13 @@ export interface FileRoutesByTo {
   '/sign-up': typeof SignUpRoute
   '/admin/deposits': typeof AdminDepositsRoute
   '/admin/investments': typeof AdminInvestmentsRoute
+  '/admin/liquidations': typeof AdminLiquidationsRoute
   '/admin/transfers': typeof AdminTransfersRoute
   '/admin/withdrawals': typeof AdminWithdrawalsRoute
   '/dashboard/all-history': typeof DashboardAllHistoryRoute
   '/dashboard/deposit-history': typeof DashboardDepositHistoryRoute
   '/dashboard/investment-history': typeof DashboardInvestmentHistoryRoute
+  '/dashboard/liquidation-history': typeof DashboardLiquidationHistoryRoute
   '/dashboard/notifications': typeof DashboardNotificationsRoute
   '/dashboard/plans': typeof DashboardPlansRoute
   '/dashboard/referrals': typeof DashboardReferralsRoute
@@ -983,6 +1038,7 @@ export interface FileRoutesByTo {
   '/dashboard/account/kyc/pending': typeof DashboardAccountKycPendingRoute
   '/dashboard/account/kyc/rejected': typeof DashboardAccountKycRejectedRoute
   '/dashboard/account/kyc': typeof DashboardAccountKycIndexRoute
+  '/dashboard/account/liquidate': typeof DashboardAccountLiquidateIndexRoute
 }
 
 export interface FileRoutesById {
@@ -1001,11 +1057,13 @@ export interface FileRoutesById {
   '/sign-up': typeof SignUpRoute
   '/admin/deposits': typeof AdminDepositsRoute
   '/admin/investments': typeof AdminInvestmentsRoute
+  '/admin/liquidations': typeof AdminLiquidationsRoute
   '/admin/transfers': typeof AdminTransfersRoute
   '/admin/withdrawals': typeof AdminWithdrawalsRoute
   '/dashboard/all-history': typeof DashboardAllHistoryRoute
   '/dashboard/deposit-history': typeof DashboardDepositHistoryRoute
   '/dashboard/investment-history': typeof DashboardInvestmentHistoryRoute
+  '/dashboard/liquidation-history': typeof DashboardLiquidationHistoryRoute
   '/dashboard/notifications': typeof DashboardNotificationsRoute
   '/dashboard/plans': typeof DashboardPlansRoute
   '/dashboard/referrals': typeof DashboardReferralsRoute
@@ -1040,6 +1098,7 @@ export interface FileRoutesById {
   '/dashboard/account/kyc/pending': typeof DashboardAccountKycPendingRoute
   '/dashboard/account/kyc/rejected': typeof DashboardAccountKycRejectedRoute
   '/dashboard/account/kyc/': typeof DashboardAccountKycIndexRoute
+  '/dashboard/account/liquidate/': typeof DashboardAccountLiquidateIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -1059,11 +1118,13 @@ export interface FileRouteTypes {
     | '/sign-up'
     | '/admin/deposits'
     | '/admin/investments'
+    | '/admin/liquidations'
     | '/admin/transfers'
     | '/admin/withdrawals'
     | '/dashboard/all-history'
     | '/dashboard/deposit-history'
     | '/dashboard/investment-history'
+    | '/dashboard/liquidation-history'
     | '/dashboard/notifications'
     | '/dashboard/plans'
     | '/dashboard/referrals'
@@ -1098,6 +1159,7 @@ export interface FileRouteTypes {
     | '/dashboard/account/kyc/pending'
     | '/dashboard/account/kyc/rejected'
     | '/dashboard/account/kyc'
+    | '/dashboard/account/liquidate'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -1112,11 +1174,13 @@ export interface FileRouteTypes {
     | '/sign-up'
     | '/admin/deposits'
     | '/admin/investments'
+    | '/admin/liquidations'
     | '/admin/transfers'
     | '/admin/withdrawals'
     | '/dashboard/all-history'
     | '/dashboard/deposit-history'
     | '/dashboard/investment-history'
+    | '/dashboard/liquidation-history'
     | '/dashboard/notifications'
     | '/dashboard/plans'
     | '/dashboard/referrals'
@@ -1151,6 +1215,7 @@ export interface FileRouteTypes {
     | '/dashboard/account/kyc/pending'
     | '/dashboard/account/kyc/rejected'
     | '/dashboard/account/kyc'
+    | '/dashboard/account/liquidate'
   id:
     | '__root__'
     | '/'
@@ -1167,11 +1232,13 @@ export interface FileRouteTypes {
     | '/sign-up'
     | '/admin/deposits'
     | '/admin/investments'
+    | '/admin/liquidations'
     | '/admin/transfers'
     | '/admin/withdrawals'
     | '/dashboard/all-history'
     | '/dashboard/deposit-history'
     | '/dashboard/investment-history'
+    | '/dashboard/liquidation-history'
     | '/dashboard/notifications'
     | '/dashboard/plans'
     | '/dashboard/referrals'
@@ -1206,6 +1273,7 @@ export interface FileRouteTypes {
     | '/dashboard/account/kyc/pending'
     | '/dashboard/account/kyc/rejected'
     | '/dashboard/account/kyc/'
+    | '/dashboard/account/liquidate/'
   fileRoutesById: FileRoutesById
 }
 
@@ -1274,6 +1342,7 @@ export const routeTree = rootRoute
       "children": [
         "/admin/deposits",
         "/admin/investments",
+        "/admin/liquidations",
         "/admin/transfers",
         "/admin/withdrawals",
         "/admin/",
@@ -1298,6 +1367,7 @@ export const routeTree = rootRoute
         "/dashboard/all-history",
         "/dashboard/deposit-history",
         "/dashboard/investment-history",
+        "/dashboard/liquidation-history",
         "/dashboard/notifications",
         "/dashboard/plans",
         "/dashboard/referrals",
@@ -1316,7 +1386,8 @@ export const routeTree = rootRoute
         "/dashboard/account/kyc/not-submitted",
         "/dashboard/account/kyc/pending",
         "/dashboard/account/kyc/rejected",
-        "/dashboard/account/kyc/"
+        "/dashboard/account/kyc/",
+        "/dashboard/account/liquidate/"
       ]
     },
     "/about": {
@@ -1354,6 +1425,10 @@ export const routeTree = rootRoute
       "filePath": "admin/investments.tsx",
       "parent": "/admin"
     },
+    "/admin/liquidations": {
+      "filePath": "admin/liquidations.tsx",
+      "parent": "/admin"
+    },
     "/admin/transfers": {
       "filePath": "admin/transfers.tsx",
       "parent": "/admin"
@@ -1372,6 +1447,10 @@ export const routeTree = rootRoute
     },
     "/dashboard/investment-history": {
       "filePath": "dashboard/investment-history.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/liquidation-history": {
+      "filePath": "dashboard/liquidation-history.tsx",
       "parent": "/dashboard"
     },
     "/dashboard/notifications": {
@@ -1507,6 +1586,10 @@ export const routeTree = rootRoute
     },
     "/dashboard/account/kyc/": {
       "filePath": "dashboard/account/kyc/index.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/account/liquidate/": {
+      "filePath": "dashboard/account/liquidate/index.tsx",
       "parent": "/dashboard"
     }
   }

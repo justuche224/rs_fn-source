@@ -14,6 +14,7 @@ import {
   ShoppingBag,
   ShieldAlert,
   Share,
+  Banknote,
 } from "lucide-react";
 import {
   Collapsible,
@@ -94,6 +95,11 @@ const data = {
       title: "Transfers",
       url: "/admin/transfers",
       icon: Share,
+    },
+    {
+      title: "Liquidations",
+      url: "/admin/liquidations",
+      icon: Banknote,
     },
   ],
   navSecondary: [
